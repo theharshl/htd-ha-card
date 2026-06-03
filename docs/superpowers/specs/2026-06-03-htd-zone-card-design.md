@@ -90,7 +90,7 @@ Both layers' `background-size` is set to the measured track pixel width in JS on
 
 ```
 ┌─────────────────────────────────────┐
-│  LIVING ROOM          [DND]  [⏻]   │  ← header: zone name + badges
+│  LIVING ROOM   [MUTE] [DND]  [⏻]  │  ← header: zone name + badges
 ├─────────────────────────────────────┤
 │  ▼ Sonos Amp                        │  ← source selector
 ├─────────────────────────────────────┤
@@ -103,8 +103,9 @@ Both layers' `background-size` is set to the measured track pixel width in JS on
 
 ### Header
 - Left: zone name (uppercase, `0.82rem`, `#e0e0e0`)
-- Right: DND pill + power circle button, `gap: 8px`, `gap: 16px` between name and badges
-- DND pill: orange glow when active, flat when inactive
+- Right: MUTE pill + DND pill + power circle button, `gap: 8px`, `gap: 16px` between name and badges
+- MUTE pill: amber (`#ffbb30`) glow when muted, flat/invisible when unmuted
+- DND pill: orange (`#ff6030`) glow when active, flat when inactive
 - Power button: circular, blue glow when on, flat when off
 
 ### Source Selector
@@ -136,6 +137,7 @@ Both layers' `background-size` is set to the measured track pixel width in JS on
 | Drag BASS slider | Calls the bass `number` entity service |
 | Drag TREB slider | Calls the treble `number` entity service |
 | Drag BAL slider | Calls the balance `number` entity service |
+| Tap MUTE pill | Toggles `media_player` mute; amber glow when muted |
 | Tap DND pill | Toggles the DND `switch`/`boolean` entity |
 | Entity state change | Card re-renders reactively via `hass` object updates |
 
@@ -156,5 +158,5 @@ Both layers' `background-size` is set to the measured track pixel width in JS on
 
 - Multi-zone / party mode control (future card)
 - System-level HTD settings
-- Mute toggle (entity exists on `media_player` but not in approved UI design; can be added in a follow-up)
+- Mute toggle is included in the approved design (header pill, amber glow)
 - Mobile-specific layout variations (card adapts to whatever column width HA assigns)
