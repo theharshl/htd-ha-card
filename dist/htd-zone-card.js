@@ -1119,7 +1119,7 @@ var HtdZoneCard = class extends i4 {
     });
   }
   _toggleMute() {
-    this._hass.callService("media_player", "mute_volume", {
+    this._hass.callService("media_player", "volume_mute", {
       entity_id: this._entities.mediaPlayer,
       is_volume_muted: !this._isMuted
     });
