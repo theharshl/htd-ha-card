@@ -29,11 +29,14 @@ class HtdZoneCard extends LitElement {
   setConfig(config) {
     if (!config.zone) throw new Error('htd-zone-card: "zone" is required in config');
     this._config = config;
-    this._entities = resolveEntities(config.zone);
+    this._entities = null;
   }
 
   set hass(hass) {
     this._hass = hass;
+    if (this._config && !this._entities) {
+      this._entities = resolveEntities(this._config.zone, hass);
+    }
   }
 
   static getConfigElement() {

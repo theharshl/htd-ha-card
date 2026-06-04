@@ -801,14 +801,23 @@ function sliderPercent(value, min, max) {
 }
 
 // src/resolver.js
-function resolveEntities(mediaPlayerId) {
-  const slug = mediaPlayerId.replace(/^media_player\./, "");
+function resolveEntities(mediaPlayerId, hass) {
+  const match = mediaPlayerId.match(/zone_(\d+)/i);
+  const n4 = match ? parseInt(match[1], 10) : 1;
+  const suffix = n4 === 1 ? "" : `_${n4}`;
+  const pad = String(n4).padStart(2, "0");
+  let dnd = null;
+  if (hass) {
+    dnd = Object.keys(hass.states).find(
+      (id) => id.startsWith(`switch.${pad}_`) && id.endsWith("_dnd") && hass.entities?.[id]?.platform === "htd"
+    ) ?? null;
+  }
   return {
     mediaPlayer: mediaPlayerId,
-    bass: `number.${slug}_bass`,
-    treble: `number.${slug}_treble`,
-    balance: `number.${slug}_balance`,
-    dnd: `switch.${slug}_dnd`
+    bass: `number.bass${suffix}`,
+    treble: `number.treble${suffix}`,
+    balance: `number.balance${suffix}`,
+    dnd
   };
 }
 function findHtdZones(hass) {
@@ -903,10 +912,13 @@ var HtdZoneCard = class extends i4 {
   setConfig(config) {
     if (!config.zone) throw new Error('htd-zone-card: "zone" is required in config');
     this._config = config;
-    this._entities = resolveEntities(config.zone);
+    this._entities = null;
   }
   set hass(hass) {
     this._hass = hass;
+    if (this._config && !this._entities) {
+      this._entities = resolveEntities(this._config.zone, hass);
+    }
   }
   static getConfigElement() {
     return document.createElement("htd-zone-card-editor");

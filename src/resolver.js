@@ -1,11 +1,24 @@
-export function resolveEntities(mediaPlayerId) {
-  const slug = mediaPlayerId.replace(/^media_player\./, '');
+export function resolveEntities(mediaPlayerId, hass) {
+  const match = mediaPlayerId.match(/zone_(\d+)/i);
+  const n = match ? parseInt(match[1], 10) : 1;
+  const suffix = n === 1 ? '' : `_${n}`;
+  const pad = String(n).padStart(2, '0');
+
+  let dnd = null;
+  if (hass) {
+    dnd = Object.keys(hass.states).find(id =>
+      id.startsWith(`switch.${pad}_`) &&
+      id.endsWith('_dnd') &&
+      hass.entities?.[id]?.platform === 'htd'
+    ) ?? null;
+  }
+
   return {
     mediaPlayer: mediaPlayerId,
-    bass:    `number.${slug}_bass`,
-    treble:  `number.${slug}_treble`,
-    balance: `number.${slug}_balance`,
-    dnd:     `switch.${slug}_dnd`,
+    bass:    `number.bass${suffix}`,
+    treble:  `number.treble${suffix}`,
+    balance: `number.balance${suffix}`,
+    dnd,
   };
 }
 
