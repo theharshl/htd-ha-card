@@ -277,3 +277,11 @@ class HtdZoneCard extends LitElement {
 }
 
 customElements.define('htd-zone-card', HtdZoneCard);
+
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: 'htd-zone-card',
+  name: 'HTD Zone Card',
+  description: 'Controls a single HTD Lync/MCA zone — power, volume, source, bass, treble, balance, mute, DND',
+  preview: false,
+});
