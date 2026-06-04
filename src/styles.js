@@ -162,11 +162,10 @@ export const cardStyles = css`
     pointer-events: none;
   }
 
-  /* Glow layer: blurred gradient pinned to full track width */
+  /* Glow layer: blurred gradient, width driven by JS inline style to match fill */
   .slider-glow {
     position: absolute;
     left: 0;
-    right: 0;
     top: 0;
     bottom: 0;
     background: linear-gradient(to right,

@@ -193,7 +193,7 @@ class HtdZoneCard extends LitElement {
         <span class="slider-label">${label}</span>
         <div class="slider-wrap">
           <div class="slider-track-bg"></div>
-          <div class="slider-glow"></div>
+          <div class="slider-glow" style="width: ${pct}%"></div>
           <div class="slider-fill" style="width: ${pct}%"></div>
           <input type="range" min=${min} max=${max} .value=${String(value)}
             @input=${onInput} @change=${onChange}>

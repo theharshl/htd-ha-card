@@ -711,11 +711,10 @@ var cardStyles = i`
     pointer-events: none;
   }
 
-  /* Glow layer: blurred gradient pinned to full track width */
+  /* Glow layer: blurred gradient, width driven by JS inline style to match fill */
   .slider-glow {
     position: absolute;
     left: 0;
-    right: 0;
     top: 0;
     bottom: 0;
     background: linear-gradient(to right,
@@ -1091,7 +1090,7 @@ var HtdZoneCard = class extends i4 {
         <span class="slider-label">${label}</span>
         <div class="slider-wrap">
           <div class="slider-track-bg"></div>
-          <div class="slider-glow"></div>
+          <div class="slider-glow" style="width: ${pct}%"></div>
           <div class="slider-fill" style="width: ${pct}%"></div>
           <input type="range" min=${min} max=${max} .value=${String(value)}
             @input=${onInput} @change=${onChange}>
