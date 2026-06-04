@@ -30,15 +30,16 @@ _Coming soon_
 
 2. Copy it to your Home Assistant `www` directory:
    ```
-   config/www/htd-zone-card.js
+   config/www/community/htd-zone-card/htd-zone-card.js
    ```
+   Create the `community/htd-zone-card/` folders if they don't exist.
 
 3. Add it as a dashboard resource. In Home Assistant go to:
    **Settings → Dashboards → ⋮ menu → Resources → Add Resource**
 
    | Field | Value |
    |-------|-------|
-   | URL | `/local/htd-zone-card.js` |
+   | URL | `/local/community/htd-zone-card/htd-zone-card.js` |
    | Resource type | JavaScript module |
 
 4. Reload your browser (hard refresh / Ctrl+Shift+R).
