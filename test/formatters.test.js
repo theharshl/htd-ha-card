@@ -63,4 +63,8 @@ describe('sliderPercent', () => {
     expect(sliderPercent(12, -12, 12)).toBe(100);
     expect(sliderPercent(0, -12, 12)).toBe(50);
   });
+
+  it('returns 0 when min equals max', () => {
+    expect(sliderPercent(5, 5, 5)).toBe(0);
+  });
 });
