@@ -1,0 +1,57 @@
+import { describe, it, expect } from 'vitest';
+import { resolveEntities, findHtdZones } from '../src/resolver.js';
+
+describe('resolveEntities', () => {
+  it('derives all entity ids from a media_player entity id', () => {
+    const result = resolveEntities('media_player.htd_lync_zone_1');
+    expect(result).toEqual({
+      mediaPlayer: 'media_player.htd_lync_zone_1',
+      bass:    'number.htd_lync_zone_1_bass',
+      treble:  'number.htd_lync_zone_1_treble',
+      balance: 'number.htd_lync_zone_1_balance',
+      dnd:     'switch.htd_lync_zone_1_dnd',
+    });
+  });
+
+  it('works for zone 12 with a different device slug', () => {
+    const result = resolveEntities('media_player.htd_lync_zone_12');
+    expect(result.bass).toBe('number.htd_lync_zone_12_bass');
+    expect(result.dnd).toBe('switch.htd_lync_zone_12_dnd');
+  });
+
+  it('returns mediaPlayer unchanged', () => {
+    const id = 'media_player.htd_lync_zone_3';
+    expect(resolveEntities(id).mediaPlayer).toBe(id);
+  });
+});
+
+describe('findHtdZones', () => {
+  it('returns media_player entities whose id starts with media_player.htd_', () => {
+    const hass = {
+      states: {
+        'media_player.htd_lync_zone_1': { attributes: { friendly_name: 'Living Room' } },
+        'media_player.htd_lync_zone_2': { attributes: { friendly_name: 'Bedroom' } },
+        'media_player.sonos_living':    { attributes: { friendly_name: 'Sonos' } },
+        'switch.htd_lync_zone_1_dnd':   { state: 'off' },
+      },
+    };
+    const zones = findHtdZones(hass);
+    expect(zones).toHaveLength(2);
+    expect(zones[0]).toEqual({ value: 'media_player.htd_lync_zone_1', label: 'Living Room' });
+    expect(zones[1]).toEqual({ value: 'media_player.htd_lync_zone_2', label: 'Bedroom' });
+  });
+
+  it('falls back to entity id when friendly_name is absent', () => {
+    const hass = {
+      states: {
+        'media_player.htd_lync_zone_1': { attributes: {} },
+      },
+    };
+    const zones = findHtdZones(hass);
+    expect(zones[0].label).toBe('media_player.htd_lync_zone_1');
+  });
+
+  it('returns empty array when no HTD zones exist', () => {
+    expect(findHtdZones({ states: {} })).toEqual([]);
+  });
+});
