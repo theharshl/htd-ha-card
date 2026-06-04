@@ -2,7 +2,7 @@
 
 **Date:** 2026-06-03
 **Status:** Approved
-**Related integration:** `/home/harshl/projects/htd-home-assistant/`
+**Related integration:** https://github.com/theharshl/htd-home-assistant
 
 ---
 
@@ -148,7 +148,7 @@ Both layers' `background-size` is set to the measured track pixel width in JS on
 - **Framework:** Lit Element (standard for custom HA cards, used by most community cards)
 - **Distribution:** Single-file `htd-zone-card.js`, registered as a custom element, loaded via HA's `configuration.yaml` resources
 - **Card editor:** Implements `getConfigElement()` returning a Lit-based config panel with zone picker
-- **Entity resolution:** Given a zone ID, derive entity IDs by querying `hass.states` for entities belonging to the HTD integration. The exact naming convention (e.g. `media_player.htd_zone_1`, `number.htd_zone_1_bass`) must be confirmed against the integration source at `/home/harshl/projects/htd-home-assistant/` before implementation begins. The zone picker should also be populated by scanning `hass.states` for all HTD `media_player` entities and presenting their friendly names.
+- **Entity resolution:** Given a zone ID, derive entity IDs by querying `hass.states` for entities belonging to the HTD integration. The exact naming convention (e.g. `media_player.htd_zone_1`, `number.htd_zone_1_bass`) must be confirmed against the integration source at https://github.com/theharshl/htd-home-assistant before implementation begins. The zone picker should also be populated by scanning `hass.states` for all HTD `media_player` entities and presenting their friendly names.
 - **State reactivity:** Standard HA card pattern — `set hass(hass)` triggers re-render when state changes
 - **Glow layer sizing:** `ResizeObserver` on each slider wrap sets `background-size` on fill and glow layers to the measured pixel width, keeping the gradient ramp absolute
 
