@@ -26,32 +26,40 @@ describe('resolveEntities', () => {
 });
 
 describe('findHtdZones', () => {
-  it('returns media_player entities whose id starts with media_player.htd_', () => {
+  it('returns media_player entities registered to the htd platform', () => {
     const hass = {
       states: {
-        'media_player.htd_lync_zone_1': { attributes: { friendly_name: 'Living Room' } },
-        'media_player.htd_lync_zone_2': { attributes: { friendly_name: 'Bedroom' } },
-        'media_player.sonos_living':    { attributes: { friendly_name: 'Sonos' } },
-        'switch.htd_lync_zone_1_dnd':   { state: 'off' },
+        'media_player.lindon_home_lync_12_zone_01': { attributes: { friendly_name: 'Living Room' } },
+        'media_player.lindon_home_lync_12_zone_02': { attributes: { friendly_name: 'Bedroom' } },
+        'media_player.sonos_living':                { attributes: { friendly_name: 'Sonos' } },
+        'switch.lindon_home_lync_12_zone_01_dnd':   { state: 'off' },
+      },
+      entities: {
+        'media_player.lindon_home_lync_12_zone_01': { platform: 'htd' },
+        'media_player.lindon_home_lync_12_zone_02': { platform: 'htd' },
+        'media_player.sonos_living':                { platform: 'sonos' },
       },
     };
     const zones = findHtdZones(hass);
     expect(zones).toHaveLength(2);
-    expect(zones[0]).toEqual({ value: 'media_player.htd_lync_zone_1', label: 'Living Room' });
-    expect(zones[1]).toEqual({ value: 'media_player.htd_lync_zone_2', label: 'Bedroom' });
+    expect(zones[0]).toEqual({ value: 'media_player.lindon_home_lync_12_zone_01', label: 'Living Room' });
+    expect(zones[1]).toEqual({ value: 'media_player.lindon_home_lync_12_zone_02', label: 'Bedroom' });
   });
 
   it('falls back to entity id when friendly_name is absent', () => {
     const hass = {
       states: {
-        'media_player.htd_lync_zone_1': { attributes: {} },
+        'media_player.lindon_home_lync_12_zone_01': { attributes: {} },
+      },
+      entities: {
+        'media_player.lindon_home_lync_12_zone_01': { platform: 'htd' },
       },
     };
     const zones = findHtdZones(hass);
-    expect(zones[0].label).toBe('media_player.htd_lync_zone_1');
+    expect(zones[0].label).toBe('media_player.lindon_home_lync_12_zone_01');
   });
 
   it('returns empty array when no HTD zones exist', () => {
-    expect(findHtdZones({ states: {} })).toEqual([]);
+    expect(findHtdZones({ states: {}, entities: {} })).toEqual([]);
   });
 });
