@@ -55,6 +55,10 @@ class HtdZoneCard extends LitElement {
   }
 
   firstUpdated() {
+    this._updateTrackWidths();
+  }
+
+  updated() {
     this.renderRoot.querySelectorAll('.slider-wrap')
       .forEach(w => this._ro.observe(w));
     this._updateTrackWidths();
