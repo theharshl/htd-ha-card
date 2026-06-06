@@ -4,7 +4,7 @@ A custom Home Assistant dashboard card for controlling a single HTD (Home Theate
 
 ## Screenshots
 
-Coming soon
+![HTD Zone Card](cardsample.png)
 
 ## Features
 
